@@ -26,7 +26,7 @@ import { formatDatum, formatPrijs } from "@/lib/format";
  * pagina er hoe dan ook verzorgd uitziet.
  */
 const fotoNaam = "hero-kaaba.jpg";
-const fotoNaamMobiel = "hero-kaaba-mobiel.jpg";
+const fotoNaamMobiel = "hero-kaaba-mobiel.png";
 
 function bestaat(naam: string): boolean {
   try {
@@ -51,7 +51,7 @@ export default function Hero() {
   const eerste = reizen[0];
 
   return (
-    <section className="relative isolate flex min-h-[88svh] items-center overflow-hidden bg-navy-950">
+    <section className="relative isolate flex min-h-[100svh] items-center overflow-hidden bg-navy-950 md:min-h-[88svh]">
       {/*
        * Achtergrond. Twee losse lagen:
        *   - onder 768 px de staande telefoonfoto met een lichtere overlay;
@@ -68,20 +68,26 @@ export default function Hero() {
               alt=""
               fill
               priority
-              quality={90}
+              quality={100}
+              /*
+               * De foto is 853 px breed en de hero is precies één schermhoogte,
+               * dus vragen wij de volle schermbreedte op. Op desktop blijft er
+               * een miniatuur over, zodat daar niets extra's wordt gedownload.
+               */
               sizes="(max-width: 767px) 100vw, 1px"
-              /* Iets naar onderen gericht, zodat de Ka'aba goed in beeld blijft */
-              className="object-cover object-[center_60%]"
+              /* De verhouding van de foto komt overeen met een telefoonscherm:
+                 minaretten bovenin, Ka'aba onderin, nauwelijks bijsnijden. */
+              className="object-cover object-[center_50%]"
             />
           ) : (
             <HeroAchtergrond />
           )}
 
-          {/* Lichtere overlay: de nachtfoto is al donker, dus de klokkentoren
-              en de Ka'aba blijven nu duidelijk zichtbaar. */}
-          <div className="absolute inset-0 bg-navy-950/[0.62]" aria-hidden="true" />
+          {/* Lichtere overlay, zodat de nachtelijke sfeer en de gouden
+              verlichting duidelijk doorkomen. Geen blur, geen filters. */}
+          <div className="absolute inset-0 bg-navy-950/[0.45]" aria-hidden="true" />
           <div
-            className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-950/70 to-transparent"
+            className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-navy-950/85 via-navy-950/45 to-transparent"
             aria-hidden="true"
           />
           <div
@@ -122,7 +128,8 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="container-page relative w-full py-20 sm:py-24 lg:py-28">
+      {/* Extra ruimte bovenaan op mobiel: daar ligt de zwevende header overheen */}
+      <div className="container-page relative w-full py-20 max-md:pb-16 max-md:pt-32 sm:py-24 lg:py-28">
         <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
           {/* Tekstkolom */}
           <div className="max-w-2xl">

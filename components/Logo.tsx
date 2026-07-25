@@ -13,6 +13,12 @@ type LogoProps = {
   variant?: "opWit" | "opDonker";
   /** Aanzetten voor het logo boven de vouw (de header), zodat het direct laadt. */
   priority?: boolean;
+  /**
+   * Alleen voor variant "opWit": zet het donkerblauwe vlak achter het logo uit
+   * op telefoons. Gebruikt op de homepage, waar de header over de donkere
+   * hero-foto ligt en het logo dus rechtstreeks op de foto staat.
+   */
+  tegelOpMobiel?: boolean;
 };
 
 /**
@@ -20,8 +26,15 @@ type LogoProps = {
  * De afmetingen komen uit lib/logo.ts, zodat next/image de originele
  * beeldverhouding aanhoudt en er geen vervorming kan optreden.
  */
-export default function Logo({ variant = "opWit", priority = false }: LogoProps) {
+export default function Logo({
+  variant = "opWit",
+  priority = false,
+  tegelOpMobiel = true,
+}: LogoProps) {
   const opDonker = variant === "opDonker";
+  const tegel = tegelOpMobiel
+    ? "bg-navy-950 px-3 py-2 ring-1 ring-inset ring-gold-400/25"
+    : "max-md:bg-transparent max-md:p-0 max-md:ring-0 md:bg-navy-950 md:px-3 md:py-2 md:ring-1 md:ring-inset md:ring-gold-400/25";
 
   return (
     <Link
@@ -41,8 +54,7 @@ export default function Logo({ variant = "opWit", priority = false }: LogoProps)
         />
       ) : (
         <span
-          className="flex items-center justify-center rounded-xl bg-navy-950 px-3 py-2
-                     ring-1 ring-inset ring-gold-400/25 transition-shadow hover:shadow-card"
+          className={`flex items-center justify-center rounded-xl transition-shadow hover:shadow-card ${tegel}`}
         >
           <Image
             src={logo.src}

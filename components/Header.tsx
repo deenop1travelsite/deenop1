@@ -36,14 +36,27 @@ export default function Header() {
   const isActief = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
+  /**
+   * Op de homepage ligt de header op telefoons over de donkere hero-foto:
+   * doorzichtig, met het logo rechtstreeks op de foto. Zodra de bezoeker
+   * scrolt, wordt de balk gewoon wit. Vanaf 768 px verandert er niets.
+   */
+  const zwevend = pathname === "/" && !gescrold && !open;
+
   return (
     <header
-      className={`sticky top-0 z-50 border-b bg-white/90 backdrop-blur-md transition-all duration-300 ease-zacht ${
-        gescrold ? "border-navy-100 shadow-card" : "border-transparent"
+      className={`z-50 transition-all duration-300 ease-zacht ${
+        pathname === "/" ? "fixed inset-x-0 top-0 md:sticky" : "sticky top-0"
+      } ${
+        zwevend
+          ? "border-b border-transparent bg-transparent max-md:backdrop-blur-none md:bg-white/90 md:backdrop-blur-md"
+          : `border-b bg-white/90 backdrop-blur-md ${
+              gescrold ? "border-navy-100 shadow-card" : "border-transparent"
+            }`
       }`}
     >
       <div className="container-page flex h-[84px] items-center justify-between gap-4 sm:h-[92px]">
-        <Logo variant="opWit" priority />
+        <Logo variant="opWit" priority tegelOpMobiel={!zwevend} />
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Hoofdnavigatie">
           {navigatie.map((item) => {
@@ -90,8 +103,11 @@ export default function Header() {
           aria-expanded={open}
           aria-controls="mobiel-menu"
           aria-label={open ? "Menu sluiten" : "Menu openen"}
-          className="flex h-11 w-11 items-center justify-center rounded-xl border border-navy-200 text-navy-800
-                     transition-colors hover:border-navy-300 hover:bg-navy-50 lg:hidden"
+          className={`flex h-12 w-12 items-center justify-center rounded-2xl border transition-colors lg:hidden ${
+            zwevend
+              ? "border-white/35 bg-white/[0.06] text-white hover:bg-white/[0.12] md:border-navy-200 md:bg-transparent md:text-navy-800"
+              : "border-navy-200 text-navy-800 hover:border-navy-300 hover:bg-navy-50"
+          }`}
         >
           {open ? <SluitIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
         </button>
