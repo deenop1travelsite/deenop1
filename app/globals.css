@@ -13,7 +13,12 @@
     scroll-behavior: smooth;
     /* Ruimte onder de vaste header bij het springen naar een anker */
     scroll-padding-top: 7rem;
+    /* Voorkomt dat Safari op de iPhone teksten automatisch vergroot */
     -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    /* Geen horizontale schuifbalk door een enkel te breed element */
+    overflow-x: hidden;
     text-rendering: optimizeLegibility;
   }
 
