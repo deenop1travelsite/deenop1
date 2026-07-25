@@ -26,13 +26,19 @@ import { formatDatum, formatPrijs } from "@/lib/format";
  * pagina er hoe dan ook verzorgd uitziet.
  */
 const fotoNaam = "hero-kaaba.jpg";
-const heeftFoto = (() => {
+const fotoNaamMobiel = "hero-kaaba-mobiel.jpg";
+
+function bestaat(naam: string): boolean {
   try {
-    return fs.existsSync(path.join(process.cwd(), "public", fotoNaam));
+    return fs.existsSync(path.join(process.cwd(), "public", naam));
   } catch {
     return false;
   }
-})();
+}
+
+const heeftFoto = bestaat(fotoNaam);
+/** Staande foto speciaal voor telefoons; valt terug op de desktopfoto. */
+const heeftMobieleFoto = bestaat(fotoNaamMobiel);
 
 const voordelen = [
   { icoon: VliegtuigIcon, tekst: "Vlucht inbegrepen" },
@@ -46,54 +52,82 @@ export default function Hero() {
 
   return (
     <section className="relative isolate flex min-h-[88svh] items-center overflow-hidden bg-navy-950">
-      {/* Achtergrond: eigen foto wanneer aanwezig, anders de getekende scène */}
+      {/*
+       * Achtergrond. Twee losse lagen:
+       *   - onder 768 px de staande telefoonfoto met een lichtere overlay;
+       *   - vanaf 768 px de bestaande desktopfoto, ongewijzigd.
+       * Dankzij de sizes-waarden haalt een telefoon alleen de mobiele foto op
+       * en een desktop alleen de desktopfoto; de andere blijft een miniatuur.
+       */}
       <div className="absolute inset-0 -z-10">
-        {heeftFoto ? (
-          <Image
-            src={`/${fotoNaam}`}
-            alt=""
-            fill
-            // De hero is het eerste dat de bezoeker ziet: direct laden, niet lui.
-            // Next levert automatisch avif of webp op maat van het scherm.
-            priority
-            quality={80}
-            sizes="100vw"
-            /*
-             * De foto staat rechtop. Op een breed scherm zien wij een liggende
-             * strook uit het midden: object-position houdt de Ka'aba daarbij in
-             * beeld. Op mobiel valt de hele hoogte binnen het kader.
-             */
-            className="object-cover object-[center_42%] sm:object-[center_40%]"
-          />
-        ) : (
-          <HeroAchtergrond />
-        )}
+        {/* ---------- Mobiel: tot 768 px ---------- */}
+        <div className="absolute inset-0 md:hidden">
+          {heeftMobieleFoto || heeftFoto ? (
+            <Image
+              src={`/${heeftMobieleFoto ? fotoNaamMobiel : fotoNaam}`}
+              alt=""
+              fill
+              priority
+              quality={90}
+              sizes="(max-width: 767px) 100vw, 1px"
+              /* Iets naar onderen gericht, zodat de Ka'aba goed in beeld blijft */
+              className="object-cover object-[center_60%]"
+            />
+          ) : (
+            <HeroAchtergrond />
+          )}
 
-        {/*
-         * Donkere overlay zodat de tekst altijd goed leesbaar blijft.
-         * De foto is licht en druk, dus op mobiel dekken wij iets steviger af
-         * en op desktop lopen wij van donker links naar open rechts.
-         */}
-        <div
-          className="absolute inset-0 bg-navy-950/[0.78] sm:bg-gradient-to-r sm:from-navy-950/[0.94] sm:via-navy-950/[0.82] sm:to-navy-950/50"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-950/80 to-transparent"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent"
-          aria-hidden="true"
-        />
-        <div className="pattern-arabesque absolute inset-0 opacity-20" aria-hidden="true" />
+          {/* Lichtere overlay: de nachtfoto is al donker, dus de klokkentoren
+              en de Ka'aba blijven nu duidelijk zichtbaar. */}
+          <div className="absolute inset-0 bg-navy-950/[0.62]" aria-hidden="true" />
+          <div
+            className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-navy-950/70 to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent"
+            aria-hidden="true"
+          />
+        </div>
+
+        {/* ---------- Desktop: vanaf 768 px, ongewijzigd ---------- */}
+        <div className="absolute inset-0 hidden md:block">
+          {heeftFoto ? (
+            <Image
+              src={`/${fotoNaam}`}
+              alt=""
+              fill
+              priority
+              quality={80}
+              sizes="(min-width: 768px) 100vw, 1px"
+              className="object-cover object-[center_40%]"
+            />
+          ) : (
+            <HeroAchtergrond />
+          )}
+
+          <div
+            className="absolute inset-0 bg-gradient-to-r from-navy-950/[0.94] via-navy-950/[0.82] to-navy-950/50"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-950/80 to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent"
+            aria-hidden="true"
+          />
+          <div className="pattern-arabesque absolute inset-0 opacity-20" aria-hidden="true" />
+        </div>
       </div>
 
       <div className="container-page relative w-full py-20 sm:py-24 lg:py-28">
         <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
           {/* Tekstkolom */}
           <div className="max-w-2xl">
-            <span className="inline-flex animate-fade-in items-center gap-2.5 rounded-full border border-gold-400/30 bg-white/[0.06] px-4 py-1.5 text-xs font-medium tracking-wide text-gold-200 backdrop-blur-sm">
+            {/* Geen backdrop-blur op mobiel: daar moet de foto scherp blijven */}
+            <span className="inline-flex animate-fade-in items-center gap-2.5 rounded-full border border-gold-400/30 bg-white/[0.06] px-4 py-1.5 text-xs font-medium tracking-wide text-gold-200 md:backdrop-blur-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-gold-400" aria-hidden="true" />
               Begeleide Umrah-reizen naar Makkah en Madinah
             </span>
@@ -116,7 +150,7 @@ export default function Hero() {
               </Link>
               <Link
                 href="/aanvragen"
-                className="btn-outline-light !px-7 !py-4 text-base backdrop-blur-sm"
+                className="btn-outline-light !px-7 !py-4 text-base md:backdrop-blur-sm"
               >
                 Vraag een offerte aan
               </Link>
