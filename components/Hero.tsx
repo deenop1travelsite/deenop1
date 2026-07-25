@@ -54,25 +54,39 @@ export default function Hero() {
             alt=""
             fill
             // De hero is het eerste dat de bezoeker ziet: direct laden, niet lui.
+            // Next levert automatisch avif of webp op maat van het scherm.
             priority
-            quality={82}
+            quality={80}
             sizes="100vw"
-            className="object-cover object-center"
+            /*
+             * De foto staat rechtop. Op een breed scherm zien wij een liggende
+             * strook uit het midden: object-position houdt de Ka'aba daarbij in
+             * beeld. Op mobiel valt de hele hoogte binnen het kader.
+             */
+            className="object-cover object-[center_42%] sm:object-[center_40%]"
           />
         ) : (
           <HeroAchtergrond />
         )}
 
-        {/* Donkere overlay zodat de tekst altijd goed leesbaar blijft */}
+        {/*
+         * Donkere overlay zodat de tekst altijd goed leesbaar blijft.
+         * De foto is licht en druk, dus op mobiel dekken wij iets steviger af
+         * en op desktop lopen wij van donker links naar open rechts.
+         */}
         <div
-          className="absolute inset-0 bg-navy-950/70 sm:bg-gradient-to-r sm:from-navy-950/[0.92] sm:via-navy-950/75 sm:to-navy-950/45"
+          className="absolute inset-0 bg-navy-950/[0.78] sm:bg-gradient-to-r sm:from-navy-950/[0.94] sm:via-navy-950/[0.82] sm:to-navy-950/50"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-950/80 to-transparent"
           aria-hidden="true"
         />
         <div
           className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent"
           aria-hidden="true"
         />
-        <div className="pattern-arabesque absolute inset-0 opacity-25" aria-hidden="true" />
+        <div className="pattern-arabesque absolute inset-0 opacity-20" aria-hidden="true" />
       </div>
 
       <div className="container-page relative w-full py-20 sm:py-24 lg:py-28">
