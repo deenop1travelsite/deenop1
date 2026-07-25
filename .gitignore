@@ -1,0 +1,45 @@
+# --- Afhankelijkheden ---
+node_modules
+.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# --- Build en cache ---
+.next
+out
+build
+dist
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Omgevingsvariabelen: nooit in Git ---
+# Hier staan de Resend-sleutel en e-mailadressen in.
+.env
+.env.*
+!.env.example
+
+# --- Logbestanden ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# --- Hostingplatformen ---
+.vercel
+.netlify
+
+# --- Besturingssysteem ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Editors ---
+.idea
+.vscode/*
+!.vscode/extensions.json
+*.swp
+
+# --- Testresultaten ---
+coverage
+.nyc_output

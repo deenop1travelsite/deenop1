@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/* Basis                                                               */
+/* De lettertypen worden geladen met next/font in app/layout.tsx en    */
+/* gezet als --font-sans en --font-serif.                              */
+/* ------------------------------------------------------------------ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Ruimte onder de vaste header bij het springen naar een anker */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-white text-[15px] leading-relaxed text-navy-800 antialiased sm:text-base;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif font-semibold text-navy-900;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  /* Duidelijke, consistente focusrand voor toetsenbordgebruik */
+  :focus-visible {
+    @apply outline-none ring-2 ring-gold-500 ring-offset-2 ring-offset-white;
+  }
+
+  ::selection {
+    @apply bg-gold-200 text-navy-950;
+  }
+
+  /* Respecteer de systeeminstelling voor minder beweging */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Componentklassen                                                    */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  /* --- Knoppen --- */
+
+  .btn {
+    @apply inline-flex select-none items-center justify-center gap-2 rounded-full px-6 py-3
+           text-sm font-semibold leading-none transition-all duration-200 ease-zacht
+           active:translate-y-px disabled:pointer-events-none disabled:opacity-55;
+  }
+
+  .btn-primary {
+    @apply btn bg-gold-500 text-navy-950 shadow-knop
+           hover:-translate-y-0.5 hover:bg-gold-400 hover:shadow-lift;
+  }
+
+  .btn-secondary {
+    @apply btn bg-navy-900 text-white shadow-card hover:-translate-y-0.5 hover:bg-navy-800 hover:shadow-lift;
+  }
+
+  .btn-outline {
+    @apply btn border border-navy-200 bg-white text-navy-800
+           hover:border-navy-300 hover:bg-navy-50 hover:text-navy-950;
+  }
+
+  .btn-outline-light {
+    @apply btn border border-white/30 bg-white/[0.06] text-white
+           hover:border-gold-400/60 hover:bg-white/[0.12];
+  }
+
+  .btn-klein {
+    @apply px-4 py-2.5 text-xs;
+  }
+
+  /* --- Kaarten --- */
+
+  .card {
+    @apply rounded-2xl border border-navy-100 bg-white shadow-card;
+  }
+
+  .card-interactief {
+    @apply card transition-all duration-300 ease-zacht
+           hover:-translate-y-1 hover:border-navy-200 hover:shadow-lift;
+  }
+
+  .card-donker {
+    @apply rounded-2xl border border-white/10 bg-white/[0.05] transition-colors duration-300
+           hover:border-gold-400/30 hover:bg-white/[0.08];
+  }
+
+  /* --- Formulier --- */
+
+  .label-field {
+    @apply mb-1.5 block text-sm font-medium text-navy-800;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-navy-200 bg-white px-4 py-3 text-sm text-navy-900
+           transition-colors duration-200 placeholder:text-navy-300
+           hover:border-navy-300 focus:border-gold-500 focus:outline-none focus:ring-2 focus:ring-gold-200;
+  }
+
+  .input-fout {
+    @apply border-red-400 focus:border-red-500 focus:ring-red-100;
+  }
+
+  /* --- Typografie --- */
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-gold-700;
+  }
+
+  .eyebrow-licht {
+    @apply text-xs font-semibold uppercase tracking-[0.18em] text-gold-300;
+  }
+
+  .prose-legal {
+    @apply max-w-lees space-y-5 text-[15px] leading-[1.75] text-navy-700;
+  }
+
+  .prose-legal h2 {
+    @apply mb-2 mt-10 text-titel-md;
+  }
+
+  .prose-legal h3 {
+    @apply mb-2 mt-6 text-base font-semibold;
+  }
+
+  .prose-legal ul {
+    @apply list-disc space-y-1.5 pl-5 marker:text-gold-500;
+  }
+
+  .prose-legal a {
+    @apply rounded-sm font-medium text-navy-900 underline decoration-gold-400 decoration-2 underline-offset-4
+           transition-colors hover:text-navy-950 hover:decoration-gold-600;
+  }
+
+  /* --- Skelet voor snelle pagina-overgangen --- */
+
+  .skelet {
+    @apply animate-glans rounded-xl bg-gradient-to-r from-navy-50 via-navy-100 to-navy-50
+           bg-[length:200%_100%];
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Hulpklassen                                                         */
+/* ------------------------------------------------------------------ */
+
+@layer utilities {
+  /* Decoratief patroon voor donkere vlakken */
+  .pattern-arabesque {
+    background-image: radial-gradient(circle at 1px 1px, rgba(223, 171, 76, 0.2) 1px, transparent 0);
+    background-size: 28px 28px;
+  }
+
+  /* Zachte gouden scheidingslijn */
+  .rand-goud {
+    background-image: linear-gradient(to right, transparent, rgba(223, 171, 76, 0.5), transparent);
+  }
+
+  /* Gestaffelde opkomst van kaarten en lijsten */
+  .vertraag-1 { animation-delay: 60ms; }
+  .vertraag-2 { animation-delay: 120ms; }
+  .vertraag-3 { animation-delay: 180ms; }
+  .vertraag-4 { animation-delay: 240ms; }
+  .vertraag-5 { animation-delay: 300ms; }
+  .vertraag-6 { animation-delay: 360ms; }
+}

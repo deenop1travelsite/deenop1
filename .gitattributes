@@ -1,0 +1,15 @@
+# Regeleindes normaliseren, zodat Windows en macOS dezelfde bestanden zien
+* text=auto eol=lf
+
+# Binaire bestanden nooit aanpassen
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# Uitvoerbaar startscript
+start-website.command text eol=lf
