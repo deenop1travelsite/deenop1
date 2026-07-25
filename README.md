@@ -196,6 +196,32 @@ node scripts/optimaliseer-logo.mjs ~/pad/naar/nieuw-logo.png
 
 Het script verwacht een PNG met transparantie (RGBA, 8 bit) en gebruikt geen externe pakketten.
 
+## Online zetten met Vercel
+
+De repository staat op https://github.com/deenop1travel/deen-op-1-travel
+
+1. Ga naar vercel.com, kies **Add New… → Project** en importeer de repository. Vercel herkent
+   Next.js zelf: framework, buildcommando en uitvoermap hoeven niet ingesteld te worden.
+2. Zet vóór de eerste deploy de omgevingsvariabelen onder **Settings → Environment Variables**
+   (voor Production, Preview en Development):
+
+   | Variabele | Waarde |
+   | --- | --- |
+   | `RESEND_API_KEY` | uw sleutel uit resend.com |
+   | `CONTACT_EMAIL` | het zakelijke adres dat de aanvragen ontvangt |
+   | `FROM_EMAIL` | afzender op een in Resend geverifieerd domein |
+   | `NEXT_PUBLIC_SITE_URL` | het adres van de site, bijvoorbeeld `https://deen-op-1-travel.vercel.app` |
+
+   `.env.local` blijft op uw eigen computer en komt niet in Git; Vercel gebruikt deze instellingen.
+3. Klik op **Deploy**. Werkt alles, koppel dan onder **Settings → Domains** uw eigen domein en pas
+   `NEXT_PUBLIC_SITE_URL` aan naar `https://www.deenop1travel.nl`. Zonder die aanpassing verwijzen
+   de canonieke URL's, de sitemap en de deelafbeeldingen naar het vercel.app-adres.
+4. Controleer na de eerste deploy: een testaanvraag versturen, en `/sitemap.xml` en `/robots.txt`
+   openen.
+
+Elke `git push` naar `main` levert automatisch een nieuwe productieversie op; een push naar een
+andere branch geeft een previewomgeving.
+
 ## SEO en vindbaarheid
 
 - Per pagina een eigen titel, omschrijving en canonieke URL via `lib/metadata.ts`.

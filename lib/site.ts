@@ -6,12 +6,21 @@
  * Verder in de code hoef je niets te wijzigen.
  */
 
+/**
+ * Adres van de website. Op Vercel kunt u dit per omgeving instellen met
+ * NEXT_PUBLIC_SITE_URL (bijvoorbeeld https://deen-op-1-travel.vercel.app zolang
+ * het eigen domein nog niet gekoppeld is). Altijd met https:// en zonder
+ * slash aan het eind. Wordt gebruikt voor canonieke URL's, de sitemap,
+ * Open Graph en de structured data.
+ */
+const standaardUrl = "https://www.deenop1travel.nl";
+
 export const site = {
   naam: "Deen op 1 Travel",
   slogan: "Begeleide Umrah-reizen naar Mekka en Medina",
   beschrijving:
     "Deen op 1 Travel organiseert begeleide Umrah-reizen naar Mekka en Medina met persoonlijke begeleiding, zorgvuldig gekozen hotels en duidelijke informatie vooraf.",
-  url: "https://www.deenop1travel.nl", // TODO: definitieve domeinnaam
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? standaardUrl).replace(/\/$/, ""),
 
   contact: {
     email: "info@deenop1travel.nl", // TODO
