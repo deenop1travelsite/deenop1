@@ -43,7 +43,7 @@ export default function AanvragenPage() {
             </Suspense>
           </div>
 
-          <aside className="space-y-6 lg:sticky lg:top-[96px] lg:h-fit">
+          <aside className="space-y-6 lg:sticky lg:top-[108px] lg:h-fit">
             <div className="rounded-2xl border border-gold-300 bg-gold-50 p-6">
               <div className="flex items-center gap-2.5">
                 <InfoIcon className="h-5 w-5 text-gold-700" />

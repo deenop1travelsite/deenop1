@@ -50,8 +50,9 @@ export default function Logo({ variant = "opWit", priority = false }: LogoProps)
             width={logo.breedte}
             height={logo.hoogte}
             priority={priority}
-            sizes="(max-width: 640px) 48px, 56px"
-            className="h-10 w-auto sm:h-12"
+            sizes="(max-width: 640px) 64px, 80px"
+            /* Ongeveer 30% groter dan voorheen (was 40 en 48 px hoog) */
+            className="h-[52px] w-auto sm:h-[62px]"
           />
         </span>
       )}

@@ -12,7 +12,7 @@
   html {
     scroll-behavior: smooth;
     /* Ruimte onder de vaste header bij het springen naar een anker */
-    scroll-padding-top: 6rem;
+    scroll-padding-top: 7rem;
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
   }

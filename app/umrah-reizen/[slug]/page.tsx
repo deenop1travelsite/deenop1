@@ -196,7 +196,7 @@ export default async function ReisDetailPage({ params }: Props) {
           </div>
 
           {/* Zijkolom */}
-          <aside className="lg:sticky lg:top-[96px] lg:h-fit">
+          <aside className="lg:sticky lg:top-[108px] lg:h-fit">
             <div className="card p-6">
               <p className="text-xs uppercase tracking-wider text-navy-500">Prijs vanaf</p>
               <p className="mt-1 font-serif text-3xl text-navy-900">

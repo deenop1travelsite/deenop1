@@ -42,7 +42,7 @@ export default function Header() {
         gescrold ? "border-navy-100 shadow-card" : "border-transparent"
       }`}
     >
-      <div className="container-page flex h-[72px] items-center justify-between gap-4 sm:h-20">
+      <div className="container-page flex h-[84px] items-center justify-between gap-4 sm:h-[92px]">
         <Logo variant="opWit" priority />
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Hoofdnavigatie">

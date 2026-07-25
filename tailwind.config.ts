@@ -43,6 +43,10 @@ const config: Config = {
       },
       fontSize: {
         // Vloeiende koppen: schalen mee met de schermbreedte, zonder mediaqueries
+        "titel-hero": [
+          "clamp(2.35rem, 1.6rem + 3.4vw, 4rem)",
+          { lineHeight: "1.08", letterSpacing: "-0.025em" },
+        ],
         "titel-xl": ["clamp(2rem, 1.4rem + 3vw, 3.25rem)", { lineHeight: "1.1", letterSpacing: "-0.02em" }],
         "titel-lg": ["clamp(1.6rem, 1.25rem + 1.7vw, 2.25rem)", { lineHeight: "1.15", letterSpacing: "-0.015em" }],
         "titel-md": ["clamp(1.25rem, 1.1rem + 0.8vw, 1.6rem)", { lineHeight: "1.25", letterSpacing: "-0.01em" }],
