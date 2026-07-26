@@ -19,6 +19,12 @@ type LogoProps = {
    * hero-foto ligt en het logo dus rechtstreeks op de foto staat.
    */
   tegelOpMobiel?: boolean;
+  /**
+   * Alleen voor variant "opWit": laat het donkerblauwe vlak op élk formaat weg.
+   * Gebruikt op de homepage, waar de header over de hero-foto ligt en het logo
+   * dus transparant op de foto hoort te staan.
+   */
+  zonderTegel?: boolean;
 };
 
 /**
@@ -30,11 +36,14 @@ export default function Logo({
   variant = "opWit",
   priority = false,
   tegelOpMobiel = true,
+  zonderTegel = false,
 }: LogoProps) {
   const opDonker = variant === "opDonker";
-  const tegel = tegelOpMobiel
-    ? "bg-navy-950 px-3 py-2 ring-1 ring-inset ring-gold-400/25"
-    : "max-md:bg-transparent max-md:p-0 max-md:ring-0 md:bg-navy-950 md:px-3 md:py-2 md:ring-1 md:ring-inset md:ring-gold-400/25";
+  const tegel = zonderTegel
+    ? "bg-transparent p-0 ring-0"
+    : tegelOpMobiel
+      ? "bg-navy-950 px-3 py-2 ring-1 ring-inset ring-gold-400/25"
+      : "max-md:bg-transparent max-md:p-0 max-md:ring-0 md:bg-navy-950 md:px-3 md:py-2 md:ring-1 md:ring-inset md:ring-gold-400/25";
 
   return (
     <Link
@@ -62,9 +71,9 @@ export default function Logo({
             width={logo.breedte}
             height={logo.hoogte}
             priority={priority}
-            sizes="(max-width: 640px) 64px, 80px"
-            /* Ongeveer 30% groter dan voorheen (was 40 en 48 px hoog) */
-            className="h-[52px] w-auto sm:h-[62px]"
+            sizes="(max-width: 640px) 64px, 96px"
+            /* Mobiel ongewijzigd; op desktop iets ruimer, zoals in het ontwerp */
+            className="h-[52px] w-auto sm:h-[62px] lg:h-[74px]"
           />
         </span>
       )}

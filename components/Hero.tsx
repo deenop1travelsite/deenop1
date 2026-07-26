@@ -42,8 +42,11 @@ export default function Hero() {
       {/* Tot 768 px: eigen mobiele opbouw */}
       <HeroMobiel />
 
-      {/* Vanaf 768 px: de bestaande desktopversie, ongewijzigd */}
-      <section className="relative isolate hidden min-h-[88svh] items-center overflow-hidden bg-navy-950 md:flex">
+      {/*
+       * Vanaf 768 px. De foto begint boven aan het scherm, achter de header:
+       * die ligt op de homepage doorzichtig over deze sectie heen.
+       */}
+      <section className="relative isolate hidden min-h-screen items-center overflow-hidden bg-navy-950 md:flex">
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0">
           {heeftFoto ? (
@@ -52,32 +55,33 @@ export default function Hero() {
               alt=""
               fill
               priority
-              quality={80}
+              quality={90}
               sizes="(min-width: 768px) 100vw, 1px"
-              className="object-cover object-[center_40%]"
+              className="object-cover object-center"
             />
           ) : (
             <HeroAchtergrond />
           )}
 
+          {/* Donkere marineblauwe overlay: links duidelijk donkerder dan rechts,
+              want daar staat de grote titel. */}
           <div
-            className="absolute inset-0 bg-gradient-to-r from-navy-950/[0.94] via-navy-950/[0.82] to-navy-950/50"
+            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,12,29,0.88)_0%,rgba(2,12,29,0.68)_42%,rgba(2,12,29,0.30)_75%,rgba(2,12,29,0.15)_100%)]"
             aria-hidden="true"
           />
           <div
-            className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-navy-950/80 to-transparent"
+            className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,12,29,0.45)_0%,rgba(2,12,29,0.12)_45%,rgba(2,12,29,0.50)_100%)]"
             aria-hidden="true"
           />
           <div
             className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-navy-950 to-transparent"
             aria-hidden="true"
           />
-          <div className="pattern-arabesque absolute inset-0 opacity-20" aria-hidden="true" />
         </div>
       </div>
 
-      <div className="container-page relative w-full py-20 sm:py-24 lg:py-28">
-        <div className="grid items-center gap-14 lg:grid-cols-[1.08fr_0.92fr] lg:gap-16">
+      <div className="relative mx-auto w-full max-w-[1450px] px-8 py-24 lg:px-[70px] lg:pb-24 lg:pt-36">
+        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.45fr)_minmax(0,1fr)] lg:gap-20">
           {/* Tekstkolom */}
           <div className="max-w-2xl">
             <span className="inline-flex animate-fade-in items-center gap-2.5 rounded-full border border-gold-400/30 bg-white/[0.06] px-4 py-1.5 text-xs font-medium tracking-wide text-gold-200 backdrop-blur-sm">
@@ -85,10 +89,13 @@ export default function Hero() {
               Begeleide Umrah-reizen naar Makkah en Madinah
             </span>
 
-            <h1 className="mt-7 animate-fade-up text-titel-hero !text-white">
+            <h1 className="mt-7 animate-fade-up text-titel-hero !text-white lg:text-[clamp(3.4rem,4.5vw,5.4rem)] lg:leading-[0.98] lg:tracking-[-0.03em]">
               Uw Umrah,
               <span className="block text-gold-300">zorgeloos geregeld.</span>
-              <span className="block">Van vertrek tot terugkomst.</span>
+              <span className="block">
+                Van vertrek
+                <br className="hidden lg:inline" /> tot terugkomst.
+              </span>
             </h1>
 
             <p className="mt-7 max-w-xl animate-fade-up text-base leading-[1.75] text-navy-100 vertraag-1 sm:text-lg">
@@ -121,9 +128,12 @@ export default function Hero() {
             </ul>
           </div>
 
-          {/* Uitgelichte reis */}
+          {/* Uitgelichte reis: glazen kaart over de foto */}
           <div className="animate-scale-in vertraag-3 lg:justify-self-end">
-            <div className="w-full rounded-3xl border border-white/10 bg-white/[0.07] p-6 shadow-lift backdrop-blur-md sm:p-8 lg:max-w-md">
+            <div
+              className="w-full rounded-[28px] border border-white/[0.18] bg-[rgba(18,29,45,0.62)] p-6
+                         shadow-[0_20px_60px_rgba(0,0,0,0.30)] backdrop-blur-[16px] sm:p-8 lg:max-w-[460px]"
+            >
               <p className="eyebrow-licht flex items-center gap-2">
                 <KalenderIcon className="h-4 w-4" />
                 Eerstvolgende vertrek

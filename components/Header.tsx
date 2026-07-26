@@ -37,26 +37,35 @@ export default function Header() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   /**
-   * Op de homepage ligt de header op telefoons over de donkere hero-foto:
-   * doorzichtig, met het logo rechtstreeks op de foto. Zodra de bezoeker
-   * scrolt, wordt de balk gewoon wit. Vanaf 768 px verandert er niets.
+   * Op de homepage ligt de header over de donkere hero-foto: doorzichtig,
+   * met het logo rechtstreeks op de foto. Zodra de bezoeker scrolt, wordt de
+   * balk gewoon wit. Op telefoons was dit al zo; nu geldt het ook op desktop.
    */
   const zwevend = pathname === "/" && !gescrold && !open;
 
   return (
     <header
       className={`z-50 transition-all duration-300 ease-zacht ${
-        pathname === "/" ? "fixed inset-x-0 top-0 md:sticky" : "sticky top-0"
+        pathname === "/" ? "fixed inset-x-0 top-0" : "sticky top-0"
       } ${
         zwevend
-          ? "border-b border-transparent bg-transparent max-md:backdrop-blur-none md:bg-white/90 md:backdrop-blur-md"
+          ? // Mobiel: volledig doorzichtig (ongewijzigd).
+            // Vanaf 768 px een zacht donker verloop voor de leesbaarheid.
+            "border-b border-transparent bg-transparent max-md:backdrop-blur-none" +
+            " md:bg-gradient-to-b md:from-navy-950/85 md:via-navy-950/30 md:to-transparent"
           : `border-b bg-white/90 backdrop-blur-md ${
               gescrold ? "border-navy-100 shadow-card" : "border-transparent"
             }`
       }`}
     >
-      <div className="container-page flex h-[84px] items-center justify-between gap-4 sm:h-[92px]">
-        <Logo variant="opWit" priority tegelOpMobiel={!zwevend} />
+      <div
+        className={`flex h-[84px] items-center justify-between gap-4 sm:h-[92px] lg:h-[104px] ${
+          zwevend
+            ? "mx-auto w-full max-w-[1450px] px-5 sm:px-6 lg:px-[70px]"
+            : "container-page"
+        }`}
+      >
+        <Logo variant="opWit" priority tegelOpMobiel={!zwevend} zonderTegel={zwevend} />
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Hoofdnavigatie">
           {navigatie.map((item) => {
@@ -66,15 +75,21 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={actief ? "page" : undefined}
-                className={`relative rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 ${
-                  actief ? "text-navy-950" : "text-navy-600 hover:text-navy-950"
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors duration-200 ${
+                  zwevend
+                    ? actief
+                      ? "text-white"
+                      : "text-white/80 hover:text-white"
+                    : actief
+                      ? "text-navy-950"
+                      : "text-navy-600 hover:text-navy-950"
                 }`}
               >
                 {item.label}
                 <span
-                  className={`absolute inset-x-3.5 -bottom-0.5 h-0.5 rounded-full bg-gold-500 transition-transform duration-300 ease-zacht ${
-                    actief ? "scale-x-100" : "scale-x-0"
-                  }`}
+                  className={`absolute inset-x-4 -bottom-1 h-0.5 rounded-full transition-transform duration-300 ease-zacht ${
+                    zwevend ? "bg-gold-400" : "bg-gold-500"
+                  } ${actief ? "scale-x-100" : "scale-x-0"}`}
                   aria-hidden="true"
                 />
               </Link>
@@ -87,7 +102,11 @@ export default function Header() {
             href={whatsappLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-outline btn-klein"
+            className={
+              zwevend
+                ? "btn btn-klein rounded-full border border-white/25 bg-navy-950/45 text-white backdrop-blur-sm transition-colors hover:border-white/40 hover:bg-navy-950/65"
+                : "btn-outline btn-klein"
+            }
           >
             <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
             WhatsApp
